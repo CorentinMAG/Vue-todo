@@ -1,0 +1,10 @@
+export const ADD_TODO = 'add_todo'
+export const DELETE_TODO = 'delete_todo'
+export const TOGGLE_ALL = 'toggle_all'
+export const TOGGLE = 'toogle'
+export const EDIT_TODO = 'edit_todo'
+
+export const ALL = 'all'
+export const ACTIVE = 'active'
+export const COMPLETED = 'completed'
+export const CLEAR = 'clear'
