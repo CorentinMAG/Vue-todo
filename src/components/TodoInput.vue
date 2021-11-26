@@ -1,7 +1,7 @@
 <template>
   <div class="p-inputgroup">
-    <Button v-model="isSelected" :class="{'p-button-success': isSelected, 'p-button-danger': !isSelected}" :icon="{'pi pi-check': isSelected, 'pi pi-times': !isSelected}" @click="isSelected = !isSelected,toggle()" :disabled="!length"/>
-    <Input type="text" v-model.trim="value" @keypress.enter="addTodo(value), value=''" placeholder="What is it about?"/>
+    <ToggleButton v-model="checked" onIcon="pi pi-check" offIcon="pi pi-times"/>
+    <Input v-model.trim="value" type="text" placeholder="What is it about?" @keyup.enter="addTodo"/>
   </div>
 </template>
 <script lang="ts">
@@ -12,22 +12,25 @@ export default defineComponent({
   name: 'TodoInput',
   data () {
     return {
-      value: '',
-      isSelected: false
+      value: ''
     }
   },
   methods: {
-    addTodo (value: string) {
-      const todo = new Todo(value)
-      this.$store.dispatch(ADD_TODO, todo)
-    },
-    toggle () {
-      this.$store.dispatch(TOGGLE_ALL, this.isSelected)
+    addTodo (): void {
+      const newTodo = new Todo(this.value)
+      this.$store.dispatch(ADD_TODO, newTodo)
+      this.value = ''
     }
   },
   computed: {
-    length (): boolean {
-      return !!this.$store.getters.todoLength
+    checked: {
+      get (): boolean {
+        /* eslint-disable */
+        return !!!this.$store.getters.todoActiveLength
+      },
+      set (isChecked: boolean): void {
+        this.$store.dispatch(TOGGLE_ALL, isChecked)
+      }
     }
   }
 })

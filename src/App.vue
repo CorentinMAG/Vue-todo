@@ -4,10 +4,10 @@
     <Card>
       <template #content>
         <TodoInput/>
-        <TodoList v-if="length" :todos="filteredTodos"/>
+        <TodoList class="list"/>
       </template>
       <template #footer>
-        <TodoFilter :length="length" @filter="onFilterChange($event)" @clear="onClear"/>
+        <TodoFilter v-show="length"/>
       </template>
     </Card>
   </div>
@@ -18,8 +18,6 @@ import { defineComponent } from 'vue'
 import TodoList from './components/TodoList.vue'
 import TodoInput from './components/TodoInput.vue'
 import TodoFilter from './components/TodoFilter.vue'
-import { CLEAR } from './utils/constantes'
-import { Todo } from './models/todo'
 
 export default defineComponent({
   name: 'App',
@@ -28,27 +26,14 @@ export default defineComponent({
     TodoList,
     TodoInput
   },
-  mounted () {
-    this.length = this.$store.getters.todoLength
-  },
   data () {
     return {
-      title: 'TODO LIST',
-      length: 0,
-      filter: 'all'
-    }
-  },
-  methods: {
-    onFilterChange (filter: string) {
-      this.filter = filter
-    },
-    onClear () {
-      this.$store.dispatch(CLEAR)
+      title: 'TODO LIST'
     }
   },
   computed: {
-    filteredTodos (): Todo[] {
-      return this.$store.getters.filter(this.filter)
+    length (): boolean {
+      return !!this.$store.getters.todoLength
     }
   }
 })
@@ -75,5 +60,9 @@ body, html {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.list {
+  margin-top: 10px;
 }
 </style>
