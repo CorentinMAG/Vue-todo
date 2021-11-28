@@ -374,3 +374,18 @@ html .clear-completed:active {
 		bottom: 10px;
 	}
 }
+
+.list-enter-from,
+.list-leave-to {
+	opacity: 0;
+	transform: translateX(30px);
+}
+
+.list-move {
+	transition: transform .8s ease;
+}
+
+.list-enter-active,
+.list-leave-active {
+	transition: all .5s ease;
+}
